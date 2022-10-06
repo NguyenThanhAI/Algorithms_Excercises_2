@@ -1,0 +1,403 @@
+\documentclass[14pt, a4paper]{article}
+\usepackage{minitoc}
+\usepackage[left=3.00cm, right=2.5cm, top=2.00cm, bottom=2.00cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{graphicx}
+%\usepackage{algpseudocode}
+%\usepackage{algorithm}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{blindtext}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+\usepackage[utf8]{vietnam}
+\usepackage[center]{caption}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr} % header, footer
+\usepackage{hyperref} % loại bỏ border với mục lục và công thức
+\usepackage[nonumberlist, nopostdot, nogroupskip]{glossaries}
+\usepackage{glossary-superragged}
+\usepackage{tikz,tkz-tab}
+\usepackage{pythonhighlight}
+\setglossarystyle{superraggedheaderborder}
+\pagestyle{fancy}
+%\usepackage[style=numeric,sortcites]{biblatex}
+%\addbibresource{ref.bib}
+%\usepackage[numbers]{natbib}
+\usepackage{indentfirst}
+\usepackage[natbib,backend=biber,style=ieee, sorting=ynt]{biblatex}
+\bibliography{ref.bib}
+
+\graphicspath{{./figures/}}
+
+\fancyhf{}
+\rhead{\textbf{Môn học: Toán rời rạc và thuật toán}}
+\lhead{\textbf{GVHD: PGS. TS. Nguyễn Thị Hồng Minh}}
+\rfoot{\thepage}
+\lfoot{\textbf{Nhóm học viên thực hiện: Nhóm 01 - Cao học Khoa học dữ liệu - K4}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+%
+%\numberwithin{equation}{section}
+%\numberwithin{algorithm}{section}
+%\numberwithin{figure}{section}
+%
+%\setlength{\parindent}{0.5cm}
+%
+%\setcounter{secnumdepth}{3} % Cho phép subsubsection trong report
+%\setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
+
+%\newtheorem{dl}{Định lý}
+%\newtheorem{md}{Mệnh đề}
+%\newtheorem{bd}{Bổ đề}
+%\newtheorem{dn}{Định nghĩa}
+%\newtheorem{hq}{Hệ quả}
+
+%\newtheorem{baitap}{Bài tập}
+%\newtheorem*{loigiai}{Lời giải}
+
+%\numberwithin{dl}{section}
+%\numberwithin{md}{section}
+%\numberwithin{bd}{section}
+%\numberwithin{dn}{section}
+%\numberwithin{hq}{section}
+
+\setlength{\parindent}{0cm}
+
+\newtheorem{dl}{Định lý}
+\newtheorem{bd}{Bổ đề}
+\newtheoremstyle{sltheorem}
+{}                % Space above
+{}                % Space below
+{\normalfont}        % Theorem body font % (default is "\upshape")
+{}                % Indent amount
+{\bfseries}       % Theorem head font % (default is \mdseries)
+{.}               % Punctuation after theorem head % default: no punctuation
+{ }               % Space after theorem head
+{}                % Theorem head spec
+\theoremstyle{sltheorem}
+\newtheorem{baitap}{Bài tập}
+\newtheoremstyle{soltheorem}
+{}                % Space above
+{}                % Space below
+{\normalfont}        % Theorem body font % (default is "\upshape")
+{}                % Indent amount
+{\bfseries}       % Theorem head font % (default is \mdseries)
+{.}               % Punctuation after theorem head % default: no punctuation
+{\newline}               % Space after theorem head
+{}                % Theorem head spec
+\theoremstyle{soltheorem}
+\newtheorem*{loigiai}{Lời giải}
+
+\onehalfspacing
+
+
+\begin{document}
+
+    \begin{titlepage}
+
+        \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+        \center % Center everything on the page
+
+        %----------------------------------------------------------------------------------------
+        %	HEADING SECTIONS
+        %----------------------------------------------------------------------------------------
+        \textsc{\LARGE Đại học Quốc Gia Hà Nội}\\[0.5cm]
+        \textsc{\LARGE Trường đại học Khoa học tự nhiên}\\[0.5cm] % Name of your university/college
+        \textsc{\LARGE Khoa Toán - Cơ - Tin học}\\[0.5cm]
+
+        \includegraphics[scale=0.2]{HUS-logo.jpg}\\[0.5cm]
+
+        \textsc{\Large Chuyên ngành: Khoa học dữ liệu}\\[0.5cm] % Major heading such as course name
+
+
+        %----------------------------------------------------------------------------------------
+        %	TITLE SECTION
+        %----------------------------------------------------------------------------------------
+
+        \HRule \\[0.4cm]
+        { \huge \bfseries Bài tập môn học}\\[0.4cm] % Title of your document
+        \HRule \\[1.5cm]
+
+        \textsc{\Large Môn học: Toán rời rạc và thuật toán}\\[1cm] % Minor heading such as course title
+
+
+        \textsc{\Large Bài tập 2: Đường đi trong đồ thị và ứng dụng}\\[1cm]
+
+
+        %----------------------------------------------------------------------------------------
+        %	AUTHOR SECTION
+        %----------------------------------------------------------------------------------------
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushleft} \large
+            \emph{Giảng viên hướng dẫn:} \\
+            PGS. TS. Nguyễn Thị Hồng Minh % Supervisor's Name
+            \end{flushleft}
+        \end{minipage}\\[0.5cm]
+
+        \begin{minipage}{0.4\textwidth}
+        \begin{flushleft} \large
+        \emph{Nhóm học viên thực hiện:}\\
+        Nguyễn Chí Thanh \\
+        MSHV: 21007925 \\ % Your name
+        Vũ Ngọc Đại \\
+        MSHV: 21007977 \\
+        Vũ Minh Hưng \\
+        MSHV: 21007973 \\
+        Lê Diệu Thúy \\
+        MSHV: 21007922 \\
+        Lớp: Khoa học dữ liệu - K4
+        \end{flushleft}
+        \end{minipage}
+
+
+        % If you don't want a supervisor, uncomment the two lines below and remove the section above
+        %\Large \emph{Author:}\\
+        %John \textsc{Smith}\\[3cm] % Your name
+
+        %----------------------------------------------------------------------------------------
+        %	DATE SECTION
+        %----------------------------------------------------------------------------------------
+
+        % I don't want day because it is English
+        % {\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+        %----------------------------------------------------------------------------------------
+        %	LOGO SECTION
+        %----------------------------------------------------------------------------------------
+
+        %\includegraphics{logo/rsz_3logo-khtn.png}\\[1cm] % Include a department/university logo - this will require the graphicx package
+
+        %----------------------------------------------------------------------------------------
+
+        \vfill % Fill the rest of the page with whitespace
+
+    \end{titlepage}
+
+    \nocite{*}
+
+    \newpage
+
+    \begin{baitap}
+        Hãy trình bày nhận thức, hiểu biết về đồ thị (graph)
+        \begin{itemize}
+            \item Những khái niệm cơ bản
+            \item Cấu trúc dữ liệu biểu diễn đồ thị
+            \item Mô hình và ứng dụng của đồ thị trong bài toán thực tiễn
+        \end{itemize}
+    \end{baitap}
+
+    \begin{loigiai}
+
+        Hãy trình bày nhận thức, hiểu biết về đồ thị (graph)
+
+        \begin{itemize}
+            \item Những khái niệm cơ bản:
+        \end{itemize}
+    \end{loigiai}
+
+    \begin{baitap}
+        Bài toán tìm đường đi (ngắn nhất) trên đồ thị và ứng dụng
+
+        \begin{itemize}
+            \item Bài toán
+            \item Một số phương pháp (thuật toán) giải bài toán tìm đường đi (ngắn nhất)
+            \item Ứng dụng: ví dụ một bài toán có thể mô hình hóa bằng đồ thị và giải bằng
+            thuật toán tìm đường đi (ngắn nhất).
+            \begin{itemize}
+                \item Phát biểu bài toán
+                \item Thuật toán
+                \item Cài đặt chương trình.
+            \end{itemize}
+        \end{itemize}
+    \end{baitap}
+
+    \begin{loigiai}
+
+        Bài toán tìm đường đi (ngắn nhất) trên đồ thị và ứng dụng
+
+        \begin{itemize}
+            \item Bài toán tìm đường đi (ngắn nhất) trên đồ thị:
+            
+            Trong các ứng dụng thực tế, chẳng hạn trong mạng lưới giao thông đường bộ, đường thuỷ hoặc
+            đường không. Người ta không chỉ quan tâm đến việc tìm đường đi giữa hai địa điểm mà còn phải
+            lựa chọn một hành trình tiết kiệm nhất (theo tiêu chuẩn không gian, thời gian hay chi phí). Khi đó
+            phát sinh yêu cầu tìm đường đi ngắn nhất giữa hai đỉnh của đồ thị. Bài toán đó phát biểu dưới dạng
+            tổng quát như sau: Cho đồ thị có trọng số $G=(V, E)$, hãy tìm một đường đi ngắn nhất từ đỉnh xuất
+            phát $u \in V$ và đỉnh đích $v \in V$. Độ dài của đường đi này ta ký hiệu là $d(u, v)$ và gọi là khoảng
+            cách từ $u$ đến $v$. Nếu như không tồn tại đường đi từ $u$ tới $v$ thì ta sẽ đặt khoảng cách đó $=+ \infty$.
+            
+            Nếu như đồ thị có chu trình âm (chu trình với độ dài âm) thì khoảng cách giữa một số cặp đỉnh nào
+            đó có thể không xác định, bởi vì bằng cách đi vòng theo chu trình này một số lần đủ lớn, ta có thể
+            chỉ ra đường đi giữa hai đỉnh nào đó trong chu trình này nhỏ hơn bất kỳ một số cho trước nào.
+            Lúc này ta xem như không tồn tại đường đi ngắn nhất giữa hai đỉnh.
+
+            Đường đi cơ bản ngắn nhất là đường đi ngắn nhất không có đỉnh được lặp lại quá một lần.
+            Nếu như đồ thị không có chu trình âm thì ta có thể chứng minh được rằng một trong những đường
+            đi ngắn nhất là đường đi cơ bản.
+
+            \begin{bd}
+                Cho một đồ thị có hướng, có trọng số $G=(V, E)$ với trọng số $w: E \rightarrow \mathbb{R}$,
+                đặt $p=(v_0, v_1, v_2, \dots, v_k)$ là đường đi ngắn nhất từ đỉnh $v_0$ đến đỉnh $v_k$, bất kỳ $i$ và $j$ với $0 \leq i \leq j \leq k$,
+                đặt $p_{ij}=(v_i, v_{i+1}, \dots, v_j)$ là quãng đường con của $p$ từ đỉnh $v_i$ đến đỉnh $v_j$ thì $p_{ij}$ là đường đi ngắn nhất từ đỉnh $v_i$ đến đỉnh $v_j$.
+            \end{bd}
+
+            \textbf{Chứng minh:} Ta phân tích $p$ thành các quãng đường nhỏ $v_0 \xrightarrow[]{p_{0i}} v_i \xrightarrow[]{p_{ij}} v_j \xrightarrow[]{p_{jk}} v_k$,
+            vì vậy $w(p)=w(p_{0i}) + w(p_{ij}) + w(p_{jk})$. Ta giải sử tồn tại một đường đi $p_{ij}^{\prime}$ từ đỉnh $v_i$ đến đỉnh $v_j$ với trọng số $w(p_{ij}^{\prime}) < w(p_{ij})$.
+            Vậy nên quãng đường $v_0 \xrightarrow[]{p_{0i}} v_i \xrightarrow[]{p_{ij}^{\prime}} v_j \xrightarrow[]{p_{jk}} v_k$ với trọng số $w(p_{0i}) + w(p_{ij}^{\prime}) + w(p_{jk}) < w(p)$,
+            mâu thuẫn với giả thiết $p$ là quãng đường nhỏ nhất từ $v_0$ đến $v_k$.
+            
+            Các thuật toán tìm đường đi ngắn nhất thường dựa trên đặc tính là đường đi ngắn nhất giữa hai đỉnh bao gồm các đường đi ngắn nhất giữa các đỉnh trung gian.
+            Cấu trúc con tối ưu thường là dấu hiệu để sử dụng các phương pháp như quy hoạch động, tham lam.
+
+            Một số những biến thể của bài toán đường đi ngắn nhất:
+
+            \begin{itemize}
+                \item Bài toán đường đi ngắn nhất với điểm xuất phát đơn: Tìm một đường đi ngắn nhất từ một đỉnh $s \in V$ cho trước tới tất cả các đỉnh $v \in V, v \neq s$ còn lại.
+                \item Bài toán tìm đường đi ngắn nhất giữa một cặp đỉnh: Tìm một đường đi ngắn nhất từ $u$ đến $v$ ($u, v \in V, u \neq v$).
+                Nếu ta đang giải bài toán đường đi ngắn nhất với điểm xuất phát đơn thì ta cũng đang giải bài toán đường đi ngắn nhất giữa một cặp đỉnh.
+                \item Bài toán đường đi ngắn nhất giữa mọi cặp đỉnh: Tìm đường đi ngắn nhất giữa mọi cặp đỉnh $(u, v)$. 
+                Ta có thể giải bài toán tìm đường đi ngắn nhất với điểm xuất phát đơn và cho từng đỉnh nhưng ta sẽ có một số thuật toán nhanh hơn.
+            \end{itemize}
+            \item Một số phương pháp (thuật toán) giải bài toán tìm đường đi (ngắn nhất)
+            \begin{itemize}
+                \item Thuật toán Bellman-Ford:
+                
+                Sơ đồ mã giả thuật toán Bellman-Ford ở thuật toán \ref{alg:Bellman-Ford}:
+
+                \begin{algorithm}[h!]
+                    \DontPrintSemicolon
+                    \KwIn{Đồ thị $G=(V, E)$, ma trận trọng số $w$ với $w(u, v)$ cho biết trọng số giữa hai đỉnh $u, v \in V$, đỉnh xuất phát $s \in V$}
+                    \KwOut{Trả về quãng đường ngắn nhất từ $s$ tới các đỉnh $v \in V \backslash \lbrace s \rbrace$ và bảng truy vết $p$}
+                    \ForEach{$v \in V$}{
+                        $d(s, v) \gets \infty$\;
+                        $p(v) \gets null $\;
+                    }
+                    $d(s, s) \gets 0$\;
+
+                    \For {$i \gets 1$ \textbf{to} $\lvert V \rvert - 1$}{
+                        \ForEach{$(u, v) \in E$}{
+                            \If {$d(s, v) > d(s, u) + w(u, v)$}{
+                                $d(s, v) \gets d(s, u) + w(u, v)$\;
+                                $p(v) \gets u$\;
+                            }
+                        }
+                    }
+
+                    \ForEach{$(u, v) \in E$}{
+                        \If {$d(s, v) < \infty$ \textbf{and} $d(s, v) > d(s, u) + d(u, v)$}{
+                            $d(s, v) \gets -\infty$\;
+                            $p(v) \gets u$\;
+                        }
+                    }
+                    \Return{$d, p$}
+                    \caption{Thuật toán Bellman-Ford}
+                    \label{alg:Bellman-Ford}
+                \end{algorithm}
+
+                Để truy vết tìm đường đi ngắn nhất từ đỉnh bắt đầu $s$ đến đỉnh $v$ (giả sử đồ thị $G$ không tồn tại một chu trình âm),
+                ta sử dụng mảng $p$ đã được xây dựng ở thuật toán \ref{alg:Bellman-Ford}:
+
+                \begin{algorithm}[h!]
+                    \DontPrintSemicolon
+                    \KwIn{Mảng truy vết $p$, đỉnh bắt đầu $s$, đỉnh đích $v$}
+                    \KwOut{Đường đi từ đỉnh bắt đầu $s$ đến đỉnh đích $v$}
+                    
+                    $path \gets \lbrack \rbrack$\;
+                    $u \gets v$\;
+                    \While{$u \neq s$}{
+                        $u \gets p(u)$\;
+                        $path \gets path.append(u)$\;
+                    }
+                    $path \gets reverse(path)$\;
+                    \Return{$path$}\;
+                    \caption{Truy vết thuật toán Bellman-Ford}
+                    \label{alg:Bellman-Ford-Trace}
+                \end{algorithm}
+                \item Thuật toán Dijkstra:
+                \item 
+                Thuật toán Dijkstra giải các bài toán đường đi ngắn nhất trên đồ thị có trọng số
+                $G=(V, E)$ nhưng yêu cầu tất cả các trọng số của các cạnh phải không âm: $w(u, v) \leq 0 \thickspace \forall \thickspace (u, v) \in E$.
+                
+                Trong trường hợp trọng số trên các cạnh không âm, thuật toán Dijkstra hiệu quả hơn khá nhiều so với thuật toán Bellman-Ford.
+                Đối với thuật toán Bellman-Ford: Với đỉnh $v \in V$, Gọi $d(s, v)$ là độ dài đường đi ngắn nhất từ $s$ đến $v$.
+                Thuật toán Bellman-Ford khởi tạo $d(s, s) \gets 0$ và $d(s, v) \gets \infty, \forall v \in V, v \neq s$.
+                Ta tối ưu hóa dần các $d(s, v)$ bằng công thưc cập nhật $d(s, v) \gets d(s, u) + w(u, v), \forall (u, v) \in E$.
+                Vậy ta dùng đỉnh $u$ để cập nhật $d(s, v)$, nhưng sau nếu ta tối ưu được $d(s, nu)$, ta cũng phải sửa lại nhãn $d(s, v)$ dẫn đến hệ quả $d(s, v)$ phải cập nhật rất nhiều lần.
+                Vậy nên ý tưởng của thuật toán Dijkstra là tại mỗi bước ta không xét mọi cặp đỉnh $(u,v)$ để cập nhật $d(s, v)$ qua $d(s, u)$,
+                ta chỉ chọn đỉnh $u$ mà khoảng cách $d(s, u)$ không thể tối ưu thêm được nữa.
+
+                Các bước để thực hiện thuật toán Dijkstra:
+
+                \textbf{Bước 1:} Khởi tại. Với đỉnh $v \in V$, gọi $d(s, v)$ là đường đi ngắn nhất từ $s$ đến $v$.
+                Ta sẽ tính các $d(s, v)$. Ban đầu $d(s, v)$ được khởi tạo giống như trong thuật toán Bellman-Ford ($d(s, s) \gets 0$, $d(s, v) \gets \infty, \forall v \in V, v \neq s$).
+                Ta tạo hai tập hợp $S$ và $Q$. $S$ là tập hợp các đỉnh có mà khoảng cách đã được tối ưu, còn tập $Q$ gồm các đỉnh mà khoảng cách có thể được tối ưu hơn nữa.
+
+                \textbf{Bước 2:} Thực hiện một vòng lặp, mỗi bước lặp gồm 2 thao tác:
+
+                \begin{itemize}
+                    \item Trong các đỉnh thuộc tập $Q$, chọn ra đỉnh $u: u = \underset{v \in Q}{\mathrm{argmin} \thickspace d(s, v)}$.
+                    Chuyển $u$ sang tập $S$.
+                    \item Cập nhật các đỉnh $v \in Q$ theo công thức:
+                    \begin{equation*}
+                        d(s, v) = \min(d(s, v), d(s, u) + w(u, v))
+                    \end{equation*}
+                \end{itemize}
+
+                Vòng lặp sẽ kết thức khi tập $Q$ rỗng, hoặc $d(s, v) = \infty \thickspace \forall \thickspace v \in Q$.
+
+                Một điều cần lưu ý rằng vì sao đỉnh $u$ sẽ không thể tối ưu thêm được khoảng cách $d(s, u)$ nữa?
+                Ta giả sử $d(s, u)$ còn cố thể tối ưu thêm được nữa vì vậy cần phải tồn tại một đỉnh $t \in Q$ sao cho $d(s, u) > d(s, t) + w(t, u)$.
+                Vì $w(t, u) \geq 0$ nên $d(s, u) > d(s, t)$, trái với lựa chọn $u: u = \underset{v \in Q}{\mathrm{argmin} \thickspace d(s, v)}$,
+                vậy nên bắt buộc $d(s, u)$ không còn thể tối ưu thêm được nữa.
+
+                Từ các phân tích trên, ta có sơ đồ mã giả của thuật toán Dijkstra được trình bày ở thuật toán \ref{alg:Dijkstra}
+                \begin{algorithm}[h!]
+                    \DontPrintSemicolon
+                    \KwIn{Đồ thị $G=(V, E)$, ma trận trọng số $w$ với $w(u, v)$ cho biết trọng số giữa hai đỉnh $u, v \in V$, đỉnh xuất phát $s \in V$}
+                    \KwOut{Trả về quãng đường ngắn nhất từ $s$ tới các đỉnh $v \in V \backslash \lbrace s \rbrace$ và bảng truy vết $p$}
+
+                    \ForEach{$v \in V$}{
+                        $d(s, v) \gets \infty$\;
+                        $p(v) \gets null $\;
+                    }
+                    $d(s, s) \gets 0$\;
+
+                    $S \gets \emptyset$\;
+                    $Q \gets V$\;
+
+                    \While{$Q \neq \emptyset$ \textbf{or} $\exists v \in Q: d(s, v) < +\infty$}{
+                        $u \gets \underset{v \in Q}{\mathrm{argmin}} \thickspace d(s, v)$\;
+                        $S \gets S \cup \lbrace u \rbrace$\;
+                        $Q \gets Q \backslash \lbrace u \rbrace$\;
+                        \ForEach{$v \in Q$ \textbf{and} $v \in adjacent(u)$}{
+                            \If{$d(s, v) > d(s, u) + w(u, v)$}{
+                                $d(s, v) \gets d(s, u) + w(u, v)$\;
+                                $p(v) \gets u$\;
+                            }
+                        }
+                    }
+                    \Return{$d, p$}\;
+                    \caption{Thuật toán Dijkstra}
+                    \label{alg:Dijkstra}
+                \end{algorithm}
+
+                Để truy vết đường đi ta sử dụng thuật toán truy vết của thuật toán Bellman-Ford đã được trình bày ở thuật toán \ref{alg:Bellman-Ford-Trace}.
+                Độ phức tạp của thuật toán Dijkstra là: Bước khởi tạo cần $\lvert V \rvert$ bước lặp.
+                Bước lặp của thuật toán gồm 2 vòng lặp lồng nhau, vòng lặp while bên ngoài trường hợp xấu nhất phải duyệt qua $\lvert V \rvert$ đỉnh.
+                Vòng lặp foreach bên trong số lượng sẽ giảm dần sau mỗi vòng lặp while bên ngoài. Nhưng trong trường hợp xấu nhất, đồ thị $G=(V, E)$ là đồ thị kết nối đầy đủ,
+                ở bước lặp đầu tiên của vòng lặp while đầu tiên vòng lặp foreach bên trong cần $\lvert V \rvert - 1$ bước lặp.
+                Sau mỗi bước lặp while vòng lặp foreach bên trong số lượng bước lặp giảm đi 1.
+                Như vậy tổng số vòng lặp bên trong cùng là: $(\lvert V \rvert - 1) + (\lvert V \rvert - 2) + \dots + 1=\dfrac{\lvert V \rvert(\lvert V \rvert - 1)}{2} \sim O(\lvert V \rvert^2)$.
+                Độ phức tạp của thuật toán Dijkstra là: $O(\lvert V \rvert + \lvert V \rvert^2)$
+            \end{itemize}
+        \end{itemize}
+    \end{loigiai}
+    \newpage
+
+    \printbibliography[title={TÀI LIỆU THAM KHẢO}]
+
+\end{document}
