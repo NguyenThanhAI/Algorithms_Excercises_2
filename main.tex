@@ -258,17 +258,49 @@
             Một số những biến thể của bài toán đường đi ngắn nhất:
 
             \begin{itemize}
-                \item Bài toán đường đi ngắn nhất với điểm xuất phát đơn: Tìm một đường đi ngắn nhất từ một đỉnh $s \in V$ cho trước tới tất cả các đỉnh $v \in V, v \neq s$ còn lại.
+                \item Bài toán đường đi ngắn nhất với đỉnh xuất phát đơn: Tìm một đường đi ngắn nhất từ một đỉnh $s \in V$ cho trước tới tất cả các đỉnh $v \in V, v \neq s$ còn lại.
                 \item Bài toán tìm đường đi ngắn nhất giữa một cặp đỉnh: Tìm một đường đi ngắn nhất từ $u$ đến $v$ ($u, v \in V, u \neq v$).
-                Nếu ta đang giải bài toán đường đi ngắn nhất với điểm xuất phát đơn thì ta cũng đang giải bài toán đường đi ngắn nhất giữa một cặp đỉnh.
+                Nếu ta đang giải bài toán đường đi ngắn nhất với đỉnh xuất phát đơn thì ta cũng đang giải bài toán đường đi ngắn nhất giữa một cặp đỉnh.
                 \item Bài toán đường đi ngắn nhất giữa mọi cặp đỉnh: Tìm đường đi ngắn nhất giữa mọi cặp đỉnh $(u, v)$. 
-                Ta có thể giải bài toán tìm đường đi ngắn nhất với điểm xuất phát đơn và cho từng đỉnh nhưng ta sẽ có một số thuật toán nhanh hơn.
+                Ta có thể giải bài toán tìm đường đi ngắn nhất với đỉnh xuất phát đơn và cho từng đỉnh nhưng ta sẽ có một số thuật toán nhanh hơn.
             \end{itemize}
             \item Một số phương pháp (thuật toán) giải bài toán tìm đường đi (ngắn nhất)
             \begin{itemize}
-                \item Thuật toán Bellman-Ford:
+                \item \textbf{Thuật toán Bellman-Ford}:
                 
-                Sơ đồ mã giả thuật toán Bellman-Ford ở thuật toán \ref{alg:Bellman-Ford}:
+                Thuật toán Bellman-Ford để giải các bài toán đường đi ngắn nhất với đỉnh xuất phát đơn.
+                Thuật toán Bellman-Ford được thiết kế dựa trên phương pháp quy hoạch động.
+
+                
+                Ta có một nhận xét quan trọng rằng đường đi nhỏ nhất giữa hai đỉnh trong đồ thị (giả sử rằng không tồn tại chu trình âm), thì đường đi này đi qua không quá $\lvert E \rvert - 1$ cạnh.
+                Hay nói cách khác không có đỉnh nào được đi qua hai lần trong đường đi ngắn nhất giữa hai đỉnh bất kỳ.
+                Để chứng minh, ta giả sử trong một đường đi ngắn nhất giữa hai đỉnh $s, v$, tồn tại một đỉnh được đi qua hai lần hay nói cách khác tồn tại một chu trình với trọng số dương (giả sử rằng không tồn tại chu trình trọng số âm trong đồ thị).
+                Ta gọi chu trình này $c = (v_i, v_{i+1}, \dots, v_l)$ với $v_i \equiv v_l$, do $w(c) > 0$, ta hoàn toàn có thể tìm ra một đường đi ngắn hơn bằng cách bỏ chu trình $c$ và chỉ đi qua đỉnh $v_i$.
+                Hệ quả là một đường đi ngắn nhất giữa hai đỉnh $s, v$ bất kỳ nếu tồn tại thì không bao giờ đi qua quá $\lvert V \rvert - 1$ đỉnh (không tính đỉnh bắt đầu) hay $\lvert E \rvert - 1$ cạnh.
+
+                Ta gọi $d^{i}(s, v)$ là trọng số quãng đường nhỏ nhất từ đỉnh bắt đầu $s$ đến đỉnh $v$ mà quãng đường này đi không quá $i$ đỉnh tiếp theo từ đỉnh bắt đầu $s$ (không tính điểm bắt đầu $s$).
+                Ở bước lặp thứ $i$, ta đã có trọng số độ dài quãng đường nhỏ nhất từ đỉnh $s$ đến đỉnh $v$ đi qua không quá $i - 1$ đỉnh.
+                Đường đi từ $s$ đến $v$ không quá $i$ đỉnh được tính bằng cách đi từ $s$ đến một điểm $u$ nào đó qua không quá $i - 1$ đỉnh rồi từ đỉnh $u$ đi trực tiếp đến đỉnh $v$ (nếu $(u, v) \in E$).
+                Vì vậy $d^{i}(s, v)$ được chọn là trường hợp tốt nhất trong các trường hợp trên:
+
+                \begin{equation*}
+                    d^{i}(s, v) = \min \big( d^{i - 1}(s, v), d^{i - 1}(s, u) + w(u, v) \text{ với } \forall u: (u, v) \in E \big)
+                \end{equation*}
+
+                Khi lập trình ta không cần tính $d^{i}(s, v)$ theo $i$ (không cần mảng 2 chiều, 1 chiều để lưu giá trị nhỏ nhất từ đỉnh $s$ đến $v$, một chiều theo $i$),
+                ta sẽ tính trực tiếp $d(s, v)$ tại bước tính tối ưu thứ $i$ sẽ được tính toán tối ưu qua các giá trị $d(s, u), \text{ với } \forall u: (u, v) \in E$ tại bước thứ $i - 1$.
+                Ta sẽ tiết kiệm được bộ nhớ chỉ phải lưu mảng một chiều thay vì phải lưu mảng hai chiều.
+
+                Để truy vết tìm đường đi ngắn nhất ta tạo một mảng $p$ với $p(v)$ cho biết đỉnh $u$ là đỉnh liền kề trước đỉnh $v$ trong đoạn đường ngắn nhất từ đỉnh xuất phát $s$ đến đỉnh $v$.
+                Ban đầu ta khởi tạo $d(s, v) \gets \infty, \thickspace \forall v \in E, v \neq s$, $d(s, s) \gets 0$, $p(v) \gets null, \thickspace v \in V$.
+                
+                Để phát hiện chu trình âm, ta thực hiện vòng lặp qua các cạnh $(u, v) \in E$ của đồ thị.
+                Nếu $d(s, v) > d(s, u) + w(u, v)$, điều này cho thấy đồ thị đã chứa chu trình âm.
+                Lý do là vì lập luận ở trên, một đường đi ngắn nhất giữa hai đỉnh bất kỳ sẽ đi qua không quá $\lvert V \rvert - 1$ đỉnh (không tính đỉnh xuất phát $s$),
+                ta chỉ cần $\lvert V \rvert - 1$ lần cập nhật để chắc chắn tìm ra đường đi ngắn nhất, nhưng khi ta lặp qua các cạnh thêm lần nữa (lần lặp thứ $\lvert V \rvert$)
+                nhưng vẫn tồn tại một đường đi ngắn hơn, điều này chứng tỏ đã có một chu trình âm trong quãng đường từ đỉnh xuất phát $s$ đến đỉnh $v$.
+
+                Ta có sơ đồ mã giả thuật toán Bellman-Ford ở thuật toán \ref{alg:Bellman-Ford}: 
 
                 \begin{algorithm}[h!]
                     \DontPrintSemicolon
@@ -290,7 +322,7 @@
                     }
 
                     \ForEach{$(u, v) \in E$}{
-                        \If {$d(s, v) < \infty$ \textbf{and} $d(s, v) > d(s, u) + d(u, v)$}{
+                        \If {$d(s, v) < \infty$ \textbf{and} $d(s, v) > d(s, u) + w(u, v)$}{
                             $d(s, v) \gets -\infty$\;
                             $p(v) \gets u$\;
                         }
@@ -319,7 +351,16 @@
                     \caption{Truy vết thuật toán Bellman-Ford}
                     \label{alg:Bellman-Ford-Trace}
                 \end{algorithm}
-                \item Thuật toán Dijkstra:
+
+                Độ phức tạp về chi phí tính toán của thuật toán Bellman-Ford:
+                Bước khởi tạo ta thực hiện vòng lặp với $\lvert V \rvert$ bước lặp.
+                Bước cập nhật các giá trị tối ưu gồm hai vòng lặp lồng nhau, vòng lặp bên ngoài cần $\lvert V \rvert - 1$ bước lặp.
+                Vòng lặp bên trong cần $\lvert E \rvert$ bước lặp. Trong đồ thị đặc, $\lvert E \rvert = \lvert V \rvert^2$, ta có độ phức tạp tính toán của bước cập nhật là $O(\lvert V \rvert^3)$
+                Bước kiểm tra có tồn tại chu kỳ âm không ta thực hiện vòng lặp với $\lvert E \rvert$ bước lặp, chi phí của bước kiểm tra này là $O(\lvert V \rvert^2)$.
+                Tổng hợp lại ta có độ phức tạp về chi phí tính toán của thuật toán Bellman-Ford là $O(\lvert V \rvert^2)$.
+                
+                Độ phức tạp về chi phí bộ nhớ: Ta cần lưu hai mảng một chiều $d$ để lưu trọng số quãng đường nhỏ nhất từ đỉnh xuất phát $s$ đến đỉnh $v$ và mảng $p$ với $u = p(v)$ là đỉnh kề trước đỉnh $v$ trong quãng đường ngắn nhất từ đỉnh xuất phát $s$ đến đỉnh đích $v$ với chi phí $O(\lvert V \rvert)$
+                \item \textbf{Thuật toán Dijkstra}:
 
                 Thuật toán Dijkstra giải các bài toán đường đi ngắn nhất trên đồ thị có trọng số
                 $G=(V, E)$ nhưng yêu cầu tất cả các trọng số của các cạnh phải không âm: $w(u, v) \leq 0 \thickspace \forall \thickspace (u, v) \in E$.
@@ -396,7 +437,7 @@
                 Như vậy tổng số vòng lặp bên trong cùng là: $(\lvert V \rvert - 1) + (\lvert V \rvert - 2) + \dots + 1=\dfrac{\lvert V \rvert(\lvert V \rvert - 1)}{2} \sim O(\lvert V \rvert^2)$.
                 Độ phức tạp của thuật toán Dijkstra là: $O(\lvert V \rvert + \lvert V \rvert^2)$
 
-                \item Thuật toán Floyd-Warshall:
+                \item \textbf{Thuật toán Floyd-Warshall}:
                 
                 Thuật toán Floyd-Warshall là thuật toán để giải bài toán tìm đường đi ngắn nhất giữa từng cặp đỉnh.
                 Thuật toán Floyd-Warshall được thiết kế dựa trên phương pháp quy hoạch động.
