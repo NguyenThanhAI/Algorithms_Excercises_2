@@ -243,6 +243,8 @@
                 Cho một đồ thị có hướng, có trọng số $G=(V, E)$ với trọng số $w: E \rightarrow \mathbb{R}$,
                 đặt $p=(v_0, v_1, v_2, \dots, v_k)$ là đường đi ngắn nhất từ đỉnh $v_0$ đến đỉnh $v_k$, bất kỳ $i$ và $j$ với $0 \leq i \leq j \leq k$,
                 đặt $p_{ij}=(v_i, v_{i+1}, \dots, v_j)$ là quãng đường con của $p$ từ đỉnh $v_i$ đến đỉnh $v_j$ thì $p_{ij}$ là đường đi ngắn nhất từ đỉnh $v_i$ đến đỉnh $v_j$.
+
+                \label{bd:Shortest-path}
             \end{bd}
 
             \textbf{Chứng minh:} Ta phân tích $p$ thành các quãng đường nhỏ $v_0 \xrightarrow[]{p_{0i}} v_i \xrightarrow[]{p_{ij}} v_j \xrightarrow[]{p_{jk}} v_k$,
@@ -318,7 +320,7 @@
                     \label{alg:Bellman-Ford-Trace}
                 \end{algorithm}
                 \item Thuật toán Dijkstra:
-                \item 
+
                 Thuật toán Dijkstra giải các bài toán đường đi ngắn nhất trên đồ thị có trọng số
                 $G=(V, E)$ nhưng yêu cầu tất cả các trọng số của các cạnh phải không âm: $w(u, v) \leq 0 \thickspace \forall \thickspace (u, v) \in E$.
                 
@@ -393,6 +395,132 @@
                 Sau mỗi bước lặp while vòng lặp foreach bên trong số lượng bước lặp giảm đi 1.
                 Như vậy tổng số vòng lặp bên trong cùng là: $(\lvert V \rvert - 1) + (\lvert V \rvert - 2) + \dots + 1=\dfrac{\lvert V \rvert(\lvert V \rvert - 1)}{2} \sim O(\lvert V \rvert^2)$.
                 Độ phức tạp của thuật toán Dijkstra là: $O(\lvert V \rvert + \lvert V \rvert^2)$
+
+                \item Thuật toán Floyd-Warshall:
+                
+                Thuật toán Floyd-Warshall là thuật toán để giải bài toán tìm đường đi ngắn nhất giữa từng cặp đỉnh.
+                Thuật toán Floyd-Warshall được thiết kế dựa trên phương pháp quy hoạch động.
+                Ta có thể giải bài toán tìm đường đi ngắn nhất giữa từng cặp đỉnh bằng cách giải bài toán tìm đường đi ngắn nhất với đỉnh xuất phát đơn $\lvert V \rvert$ khả năng chọn đỉnh xuất phát.
+                Nhưng với phương pháp này, ta sử dụng thuật toán Bellman-Ford thì độ phức tạp về chi phí tính toán sẽ là $O(\lvert V \rvert^2 \lvert E \rvert)$.
+                Nếu với đồ thị đặc $\lvert E \rvert = \lvert V \rvert^2$ thì độ phức tạp về chi phí tính toán sẽ là $O(\lvert V \rvert^4)$.
+                Đây là một chi phí rất lớn.
+
+                Thuật toán Floyd-Warshall được thiết kế dựa trên một vài quan sát quan trọng.
+                Ta đánh số các đỉnh của đồ thị $G$ là $V=\lbrace 1, 2, \dots, n \rbrace$, ta chọn ra một tập con các đỉnh
+                $\lbrace 1, \dots, k$ sao cho $1 \leq k \leq n$. Bất kỳ một cặp đỉnh $i, j \in V$,
+                ta xét tất cả các đường đi từ $i$ đến $j$ mà các đỉnh trung gian có thể được chọn trong tập $\lbrace 1, \dots, k \rbrace$,
+                ta đặt $p$ là đường đi có trọng số nhất trong các đường đi này.
+                Thuật toán Floyd-Warshall khai thác mối quan hệ giữa $p$ và các đường đi nhỏ nhất từ $i$ đến $j$ với các đỉnh trung gian được chọn từ tập $\lbrace 1, \dots, k - 1 \rbrace$.
+                Mối quan hệ này phụ thuộc vào đỉnh $k$ có phải là một đỉnh trung gian của $p$ hay không.
+
+                \begin{itemize}
+                    \item \textbf{Trường hợp 1:} Nếu đỉnh $k$ không là đỉnh trung gian của đường đi $p$ thì tất cả các đỉnh trung gian của $p$ thuộc về tập $\lbrace 1, 2, \dots, k-1 \rbrace$.
+                    Vì vậy mà đường đi ngắn nhất từ đỉnh $i$ đến đỉnh $j$ với tập đỉnh trung gian $\lbrace 1, 2, \dots, k - 1 \rbrace$ cũng là đường đi ngắn nhất từ đỉnh $i$ đến đỉnh $j$ với tập đỉnh trung gian là $\lbrace 1, 2, \dots, k \rbrace$.
+                    
+                    \item \textbf{Trường hợp 2:} Nếu $k$ là đỉnh trung gian của đường đi $p$, ta tách $p$ thành hai đường $i \xrightarrow[]{p_1} k \xrightarrow[]{p_2} j$.
+                    Theo bổ đề \ref{bd:Shortest-path}, $p_1$ là đường đi ngắn nhất từ $i$ đến $k$ với tập đỉnh trung gian $\lbrace 1, 2, \dots, k - 1 \rbrace$.
+                    Tương tự, $p_2$ cũng là đường đi ngắn nhất từ đỉnh $k$ đến đỉnh $j$ với tập đỉnh trung gian $\lbrace 1, 2, \dots, k - 1 \rbrace$.
+                \end{itemize}
+                
+                Từ các quan sát trên, ta xây dựng được công thức truy hồi về đường đi nhỏ nhất từ đỉnh $i$ đến đỉnh $j$ với tập đỉnh trung gian $\lbrace 1, 2, \dots, k \rbrace$.
+                Ta đặt trọng số đường đi nhỏ nhất từ đỉnh $i$ đến đỉnh $j$ với tập đỉnh trung gian $\lbrace 1, 2, \dots, k \rbrace$ là $d^{k}(i, j)$. 
+                Với $k = 0$, một đường đi từ đỉnh $i$ đến đỉnh $j$ với không có đỉnh trung gian nào thì đường đi ngắn nhất chính là trọng số của cạnh nối trực tiếp giữa đỉnh $i$ và đỉnh $j$ (nếu có).
+                Ta có công thức truy hồi tính $d^k(i, j)$:
+
+                \begin{equation*}
+                    d^{k}(i, j) = \begin{cases} w(i, j) \text{ nếu } k = 0 \\ \min \big \lbrace d^{k-1}(i, j), d^{k-1}(i, k) + d^{k-1}(k, j)  \big\rbrace \text{ nếu } k \geq 1 \end{cases}
+                \end{equation*}
+
+                Để truy vết đường đi ngắn nhất giữa các cặp đỉnh, ta sử dụng ma trận $P$ với $P^{k}(i, j)$ có ý nghĩa là trong quãng đường ngắn nhất từ đỉnh $i$ đến đỉnh $j$ với tập đỉnh trung gian là $\lbrace 1, 2, \dots, k \rbrace$ thì điểm liền trước đỉnh $j$ là đỉnh nào.
+                Ma trận $P$ được xây dựng trong quá trình thực hiện thuật toán Floyd-Warshall, ban đầu ma trận $P$ được khởi tạo:
+
+                \begin{equation*}
+                    P^{0}(i, j) = \begin{cases} null \text{ nếu } i = j \text{ hoặc } w(i, j) = \infty \\ i \text{ nếu } i \neq j \text{ hoặc } w(i, j) < \infty \end{cases}
+                \end{equation*}
+
+                Với $k \geq 1$, nếu $k$ là một đỉnh trung gian trong đường đi ngắn nhất từ đỉnh $i$ đến đỉnh $j$ $i \xrightarrow[]{p_1} k \xrightarrow[]{p_2} j (k \neq j)$,
+                ta chọn điểm liền trước của $j$ trên đường đi ngắn nhất từ đỉnh $i$ đến đỉnh $j$ cùng với đỉnh là đỉnh liền trước đỉnh $j$ trong quãng đường ngắn nhất từ đỉnh $k$ đến đỉnh $j$ với tập đỉnh trung gian là $\lbrace 1, 2, \dots, k - 1 \rbrace$.
+                Ta có công thức tổng quát tính các phần tử của ma trận $P (k \geq 1)$:
+
+                \begin{equation*}
+                    P^{k}(i, j) = \begin{cases} P^{k-1}(k, j) \text{ nếu } d^{k-1}(i, j) > d^{k-1}(i, k) + d^{k-1}(k, j) \\
+                                                P^{k-1}(i, j) \text{ nếu } d^{k-1}(i, j) \leq d^{k-1}(i, k) + d^{k-1}(k, j) \end{cases}
+                \end{equation*}
+
+                Ta cũng có thể tìm một chu trình âm trong đồ thị bằng cách kiểm tra các phần tử trên đường chéo chính của ma trận $d^{n}$.
+                Nếu có ít nhất một phần tử âm, ta kết luận rằng đồ thị tồn tại chu trình âm.
+                
+                Một điều cần lưu ý là trong quá trình l ập trình, ta không còn cần tính $d^{k}(i, j)$ theo $k$ nữa mà sẽ tính trực tiếp $d(i, j)$.
+                $d(i, j)$ tại bước tính tối ưu thứ $k$ sẽ được tính toán để tối ưu qua các giá trị $d(i, j), d(i, k), d(k, j)$ tại bước thứ $k-1$.
+                Như vậy ta sẽ tiết kiệm được bộ nhớ chỉ phải lưu mảng hai chiều thay vì phải lưu mảng 3 chiều.
+
+                Ta có mã giả thuật toán Floyd-Warshall được trình bày ở thuật toán \ref{alg:Floyd-Warshall}:
+
+                \begin{algorithm}[h!]
+                    \DontPrintSemicolon
+                    \KwIn{Đồ thị $G=(V, E)$ được biểu diễn bằng ma trận kề $w$}
+                    \KwOut{Khoảng cách nhỏ nhất giữa các cặp đỉnh được biểu diễn bằng ma trận $d$ và ma trận truy vết $P$}
+
+                    \For {$i \gets 1$ \textbf{ to } $n$} {
+                        \For {$j \gets 1$ \textbf{ to } $n$} {
+                            $d(i, j) \gets w(i, j)$\;
+                            \If{$i = j$ \textbf{ or } $w(i, j) = \infty$} {
+                                $P(i, j) \gets null$\;
+                            } \Else{
+                                $P(i, j) \gets i$\;
+                            }
+                        }
+                    }
+
+                    \For {$k \gets 1$ \textbf{ to } $n$} {
+                        \For {$i \gets 1$ \textbf{ to } $n$} {
+                            \For {$k \gets 1$ \textbf{ to } $n$} {
+                                \If {$d(i, j) > d(i, k) + d(k, j)$} {
+                                    $d(i, j) \gets d(i, k) + d(k, j)$\;
+                                    $P(i, j) \gets P(k, j)$\;
+                                }
+                            }
+                        }
+                    }
+
+                    \For {$i \gets 1$ \textbf{ to } $n$} {
+                        \If{$d(i, i) < 0$} {
+                            print("Phát hiện chu trình âm")\;
+                            break\;
+                        }
+                    }
+                    \Return{$d, P$}\;
+                    \caption{Thuật toán Floyd-Warshall}
+                    \label{alg:Floyd-Warshall}
+                \end{algorithm}
+
+                Thuật toán Floyd-Warshall gồm 3 công việc riêng biệt:
+                \begin{itemize}
+                    \item Quá trình khởi tạo gồm 2 vòng lặp for lồng nhau có độ phức tạp về chi phí tính toán là $O(n^2)$.
+                    \item Thực hiện cập nhật các đường đi tối ưu và lưu vết gồm 3 vòng lặp lồng nhau có độ phức tạp về chi phí tính toán là $O(n^2)$.
+                    \item Quá trình kiểm tra chu trình âm, trường hợp xấu nhất cần $n$ bước kiểm tra, độ phức tạp về chi phí tính toán là $O(n)$.
+                \end{itemize}
+                Như vậy độ phức tạp về chi phí tính toán của thuật toán Floyd-Warshall là $O(n^3)$.
+                Độ phức tạp về chi phí bộ nhớ là cần lưu hai mảng hai chiều $d$ và $P$ là $O(n^2)$.
+
+                Để đưa ra được đường đi ngắn nhất giữa hai đỉnh $s$ và $v$, ta sử dụng thuật toán tương đối giống với thuật toán truy vết của thuật toán Bellman-Ford.
+                Mã giả của thuật toán đưa ra đường đi ngắn nhất được trình bày ở thuật toán \ref{alg:Floyd-Warshall-Trace}.
+
+                \begin{algorithm}[h!]
+                    \KwIn{Mảng truy vết $P$, đỉnh bắt đầu $s$, đỉnh đích $j$}
+                    \KwOut{Đường đi ngắn nhất từ đỉnh bắt đầu $s$ đến đỉnh đích $v$}
+
+                    $path \gets \lbrack \rbrack$\;
+                    
+                    \While{$v \neq s$}{
+                        $v \gets P(s, v)$\;
+                        $path \gets path.append(v)$\;
+                    }
+                    $path \gets reverse(path)$\;
+                    \Return{$path$}\;
+                    \caption{Truy vết thuật toán Floyd-Warshall}
+                    \label{alg:Floyd-Warshall-Trace}
+                \end{algorithm}
             \end{itemize}
         \end{itemize}
     \end{loigiai}
